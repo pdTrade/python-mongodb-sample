@@ -86,5 +86,20 @@ def find_columns():
   for doc in docs:
     print(doc) 
 
+def update_by_id(id):
+  _id = ObjectId(id)
+  collection = test_db.test 
 
-find_columns()
+  data = {
+    "$rename": {"first_name": "aaa"},
+    "$inc": {"age": 1},
+    "$set": {"new_field": True}
+  }
+  collection.update_one({"_id": _id}, data)
+
+  data = {
+    "$unset": {"new_field": ""}
+  }
+  collection.update_one({"_id": _id}, data)
+
+update_by_id("65f19bc95d85963c3530ae8f")
