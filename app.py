@@ -77,6 +77,14 @@ def find_between(min, max):
   for doc in docs:
     print(doc)
 
+def find_columns():
+  columns = {"_id": 1, "first_name": 1}
+
+  collection = test_db.test
+  docs = collection.find({}, columns)
+
+  for doc in docs:
+    print(doc) 
 
 
-find_between(20, 40)
+find_columns()
