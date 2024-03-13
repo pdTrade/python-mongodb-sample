@@ -64,5 +64,19 @@ def find_by_id(id):
 
   print(doc)
 
+def find_between(min, max):
+  query = {
+    "$and": [
+      {"age": {"$gte": min}},
+      {"age": {"$lte": max}},
+  ]}
+
+  collection = test_db.test
+  docs = collection.find(query).sort("age")
+
+  for doc in docs:
+    print(doc)
 
 
+
+find_between(20, 40)
