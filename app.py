@@ -1,5 +1,6 @@
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 client = MongoClient('localhost', 27017)
 
@@ -19,7 +20,8 @@ def insert_test_doc():
   }
 
   id = collection.insert_one(test_doc).inserted_id
-  # print(id)
+
+  print(id)
 
 def create_documents():
   first_names = ['fname1', 'fname2', 'fname3', 'fname4', 'fname5']
@@ -39,12 +41,28 @@ def find_all():
   collection = test_db.test
   docs = collection.find()
 
-  # for doc in docs:
-    # print(doc)
+  for doc in docs:
+    print(doc)
 
 def find_by_name():
   collection = test_db.test
   doc = collection.find_one({"first_name": "fname2"})
 
-  # print(doc)
+  print(doc)
+
+def count_all():
+  collection = test_db.test
+  count = collection.count_documents({})
+
+  print(count)
+  
+def find_by_id(id):
+  _id = ObjectId(id)
+
+  collection = test_db.test
+  doc = collection.find_one({"_id": _id})
+
+  print(doc)
+
+
 
