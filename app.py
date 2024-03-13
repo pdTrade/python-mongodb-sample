@@ -19,6 +19,22 @@ def insert_test_doc():
   }
 
   id = collection.insert_one(test_doc).inserted_id
-  print(id)
+  # print(id)
 
-insert_test_doc()
+def create_documents():
+  first_names = ['fname1', 'fname2', 'fname3', 'fname4', 'fname5']
+  last_names = ['lname1', 'lname2', 'lname3', 'lname4', 'lname5']
+  ages = [10, 20, 30, 40, 50]
+
+  docs = []
+
+  for first_name, last_name, age in zip(first_names, last_names, ages):
+    doc = {"first_name": first_name, "last_name": last_name, "age": age}
+    docs.append(doc)
+
+  collection = test_db.test
+  collection.insert_many(docs)
+  
+
+
+create_documents()
