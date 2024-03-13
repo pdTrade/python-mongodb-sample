@@ -102,4 +102,23 @@ def update_by_id(id):
   }
   collection.update_one({"_id": _id}, data)
 
-update_by_id("65f19bc95d85963c3530ae8f")
+def replace_by_id(id):
+  _id = ObjectId(id)
+  collection = test_db.test 
+
+  data = {
+    "first_name": "f1",
+    "last_name": "l1",
+  }
+  collection.replace_one({"_id": _id}, data)
+
+
+def delete_by_id(id):
+  _id = ObjectId(id)
+  collection = test_db.test 
+
+  collection.delete_one({"_id": _id})
+
+
+delete_by_id("65f19bc95d85963c3530ae8f")
+
