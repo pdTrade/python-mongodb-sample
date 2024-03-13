@@ -35,6 +35,16 @@ def create_documents():
   collection = test_db.test
   collection.insert_many(docs)
   
+def find_all():
+  collection = test_db.test
+  docs = collection.find()
 
+  # for doc in docs:
+    # print(doc)
 
-create_documents()
+def find_by_name():
+  collection = test_db.test
+  doc = collection.find_one({"first_name": "fname2"})
+
+  # print(doc)
+
