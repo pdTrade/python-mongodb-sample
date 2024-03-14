@@ -120,5 +120,10 @@ def delete_by_id(id):
   collection.delete_one({"_id": _id})
 
 
-delete_by_id("65f19bc95d85963c3530ae8f")
+def add_embed(id, data):
+  _id = ObjectId(id)
+  collection = test_db.test 
 
+  collection.update_one({"_id": _id}, {"$addToSet": {"data": data}})
+
+add_embed("65f19bc95d85963c3530ae90", {"a":2})
