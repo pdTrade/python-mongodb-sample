@@ -167,4 +167,28 @@ authors_and_books = test_db.author.aggregate([{
   }
 }])
 
-pprint(list(authors_and_books))
+authors_book_count = test_db.author.aggregate([
+  {
+    "$lookup": {
+      "from": "book",
+      "localField": "_id",
+      "foreignField": "authors",
+      "as": "books"
+    }
+  },
+  {
+    "$addFields": {
+      "total_books": {"$size": "$books"}
+    } 
+  },
+  { 
+    "$project": {
+      "first_name": 1,
+      "last_name": 1,
+      "total_books": 1,
+      "_id": 0
+    }
+  }
+])
+
+pprint(list(authors_book_count))
