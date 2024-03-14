@@ -120,35 +120,35 @@ def create_data():
     {
       "title": "t1",
       "authors": [ids[0]],
-      "publish_date": dt(2020, 1, 10),
+      "publish_date": dt(2001, 1, 10),
       "type": "fiction",
       "copies": 1
     },
     {
       "title": "t2",
       "authors": [ids[1]],
-      "publish_date": dt(2020, 2, 10),
+      "publish_date": dt(2002, 2, 10),
       "type": "fiction",
       "copies": 2
     },
     {
       "title": "t3",
       "authors": [ids[2]],
-      "publish_date": dt(2020, 3, 10),
+      "publish_date": dt(2003, 3, 10),
       "type": "non-fiction",
       "copies": 3
     },
     {
       "title": "t4",
       "authors": [ids[3]],
-      "publish_date": dt(2020, 4, 10),
+      "publish_date": dt(2004, 4, 10),
       "type": "non-fiction",
       "copies": 4
     },
     {
       "title": "t5",
       "authors": [ids[4]],
-      "publish_date": dt(2020, 5, 10),
+      "publish_date": dt(2005, 5, 10),
       "type": "fiction",
       "copies": 5
     },
@@ -191,4 +191,35 @@ authors_book_count = test_db.author.aggregate([
   }
 ])
 
-pprint(list(authors_book_count))
+books_with_old_authors = test_db.book.aggregate([
+  {
+    "$lookup": {
+      "from": "author",
+      "localField": "authors",
+      "foreignField": "_id",
+      "as": "authors"
+    }
+  },
+  {
+    "$set": {
+      "authors": {
+        "$map": {
+          "input": "$authors",
+          "in": {
+            "first_name": "$$this.first_name",
+            "last_name": "$$this.last_name",
+            "age": {
+              "$dateDiff": {
+                "startDate": "$$this.date_of_birth",
+                "endDate": "$$NOW",
+                "unit": "year"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+])
+
+pprint(list(books_with_old_authors))
