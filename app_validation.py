@@ -227,6 +227,11 @@ books_with_old_authors = test_db.book.aggregate([
         {"authors.age": {"$lte": 60}},
       ]
     }
+  },
+  {
+    "$sort": {
+      "age": 1
+    }
   }
 ])
 
