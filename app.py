@@ -126,4 +126,13 @@ def add_embed(id, data):
 
   collection.update_one({"_id": _id}, {"$addToSet": {"data": data}})
 
-add_embed("65f19bc95d85963c3530ae90", {"a":2})
+def add_relationship(id, data):
+  _id = ObjectId(id)
+  collection = test_db.data  
+
+  _data = data.copy()
+  _data["owner_id"] = id
+  collection.insert_one(_data)
+
+
+add_relationship("65f19bc95d85963c3530ae93", {"a":2})
