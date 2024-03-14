@@ -89,27 +89,27 @@ def create_data():
     {
       "first_name": "f1",
       "last_name": "l1",
-      "date_of_birth": dt(2001, 1, 10)
+      "date_of_birth": dt(2000, 1, 10)
     },
     {
       "first_name": "f2",
       "last_name": "l2",
-      "date_of_birth": dt(2001, 2, 10)
+      "date_of_birth": dt(1980, 2, 10)
     },
     {
       "first_name": "f3",
       "last_name": "l3",
-      "date_of_birth": dt(2001, 3, 10)
+      "date_of_birth": dt(1950, 3, 10)
     },
     {
       "first_name": "f4",
       "last_name": "l4",
-      "date_of_birth": dt(2001, 4, 10)
+      "date_of_birth": dt(1960, 4, 10)
     },
     {
       "first_name": "f5",
       "last_name": "l5",
-      "date_of_birth": dt(2001, 5, 10)
+      "date_of_birth": dt(1970, 5, 10)
     },
   ]
 
@@ -218,6 +218,14 @@ books_with_old_authors = test_db.book.aggregate([
           }
         }
       }
+    }
+  },
+  {
+    "$match": {
+      "$and": [
+        {"authors.age": {"$gte": 40}},
+        {"authors.age": {"$lte": 60}},
+      ]
     }
   }
 ])
