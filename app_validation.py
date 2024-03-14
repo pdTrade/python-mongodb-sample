@@ -2,6 +2,7 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime as dt
+from pprint import pprint
 
 client = MongoClient('localhost', 27017)
 
@@ -83,7 +84,7 @@ def create_author_collection():
   test_db.command("collMod", "author", validator=validator) 
 
 
-def create_date():
+def create_data():
   authors = [
     {
       "first_name": "f1",
@@ -146,14 +147,24 @@ def create_date():
     },
     {
       "title": "t5",
-      "authors": [authors[4]],
+      "authors": [ids[4]],
       "publish_date": dt(2020, 5, 10),
       "type": "fiction",
       "copies": 5
     },
   ]
 
-  book_collection = test_db.books 
+  book_collection = test_db.book 
   book_collection.insert_many(books)
 
-create_date()
+
+authors_and_books = test_db.author.aggregate([{
+  "$lookup": {
+    "from": "book",
+    "localField": "_id",
+    "foreignField": "authors",
+    "as": "books"
+  }
+}])
+
+pprint(list(authors_and_books))
